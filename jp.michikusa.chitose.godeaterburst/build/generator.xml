@@ -22,7 +22,7 @@
 
 	<target name="hbm2java">
 		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
-			classpathref="toolslib" classpath="${dir.dest.src}" />
+			classpathref="toolslib" />
 		
 		<hibernatetool>
 			<configuration configurationfile="${dir.conf}/hibernate.cfg.xml">

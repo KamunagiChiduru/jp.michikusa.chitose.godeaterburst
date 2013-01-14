@@ -6,7 +6,7 @@
         <id name="id" column="id" type="long">
             <generator class="native"/>
         </id>
-        <property name="category" column="category" type="java.lang.String" length="30" not-null="true">
+        <property name="categoryId" column="category_id" type="long" not-null="true">
             <!-- <comment>アイテムの分類 e.g.消費アイテム、アラガミ素材</comment> -->
         </property>
         <property name="name" column="name" type="java.lang.String" length="128" not-null="true">
@@ -24,6 +24,11 @@
         <property name="note" column="note" type="java.lang.String">
             <!-- <comment>主な入手先等、備考</comment> -->
         </property>
+
+        <set name="categories">
+            <key column="category_id" not-null="true"/>
+            <one-to-many class="jp.michikusa.chitose.entity.ItemCategory"/>
+        </set>
     </class>
 </hibernate-mapping>
 
