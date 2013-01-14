@@ -1,0 +1,2 @@
+jp.michikusa.chitose.godeaterburst
+==================================
