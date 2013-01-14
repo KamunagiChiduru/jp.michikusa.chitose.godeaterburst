@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="hibernate-generator" default="all" basedir=".">
+	<property name="dir.conf" value="../conf/" />
+	<property name="dir.dest.hbm" value="../src/" />
+	<property name="dir.dest.src" value="../src/" />
+	<property name="dir.lib" value="../../HibernateSQLite/" />
+	<property name="dir.build.lib" value="./lib/" />
+	<property name="dir.hbm.template" value="./template" />
+
+	<path id="toolslib">
+		<fileset dir="${dir.build.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<path id="hbm2ddl_libs">
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="all" depends="hbm2java,hbm2ddl" />
+
+	<target name="hbm2java">
+		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
+			classpathref="toolslib" classpath="${dir.dest.src}" />
+		
+		<hibernatetool>
+			<configuration configurationfile="${dir.conf}/hibernate.cfg.xml">
+				<fileset dir="${dir.dest.hbm}">
+					<include name="**/*.hbm.xml" />
+				</fileset>
+			</configuration>
+			<hbm2java destdir="${dir.dest.src}" />
+		</hibernatetool>
+	</target>
+
+	<target name="hbm2ddl">
+		<taskdef name="schemaexport" classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
+			classpathref="hbm2ddl_libs" classpath="../lib/" />
+
+		<schemaexport config="${dir.conf}/hibernate.cfg.xml"
+			quiet="no" text="no" drop="no" delimiter=";" output="schema-export.sql">
+			<fileset dir="${dir.dest.hbm}">
+				<include name="**/*.hbm.xml" />
+			</fileset>
+		</schemaexport>
+	</target>
+</project>
+    
