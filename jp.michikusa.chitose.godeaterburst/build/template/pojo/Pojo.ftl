@@ -5,6 +5,8 @@ ${pojo.getPackageDeclaration()}
 <#include "PojoTypeDeclaration.ftl"/> {
 
 <#if !pojo.isInterface()>
+<#include "PojoStaticFields.ftl"/>
+
 <#include "PojoFields.ftl"/>
 
 <#include "PojoConstructors.ftl"/>
@@ -20,6 +22,8 @@ ${pojo.getPackageDeclaration()}
 
 </#if>
 <#include "PojoExtraClassCode.ftl"/>
+
+<#-- <#include "PojoBuilder.ftl"/> -->
 
 }
 </#assign>

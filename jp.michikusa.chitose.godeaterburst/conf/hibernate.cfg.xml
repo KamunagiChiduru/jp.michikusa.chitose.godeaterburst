@@ -12,7 +12,8 @@
 		<property name="connection.username"></property>
 		<property name="connection.password"></property>
 		
-<!-- 		<mapping resource="jp/michikusa/chitose/entity/ItemInfo.hbm.xml"/> -->
+		<mapping resource="jp/michikusa/chitose/entity/ItemInfo.hbm.xml"/>
+		<mapping resource="jp/michikusa/chitose/entity/ItemCategory.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
 
