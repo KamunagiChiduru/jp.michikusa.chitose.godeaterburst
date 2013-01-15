@@ -3,7 +3,6 @@ package jp.michikusa.chitose.setup;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -26,8 +25,6 @@ public class DatabaseInitializer implements Callable<Boolean>{
 	@Override
 	public Boolean call() throws Exception{
 		Class.forName(this.jdbc_driver_classname);
-		
-		this.selectAny();
 		
 		Connection connection= null;
 		try{
@@ -67,85 +64,7 @@ public class DatabaseInitializer implements Callable<Boolean>{
 			}
 		}
 		
-		this.insertAny();
-		
 		return true;
-	}
-	
-	private void selectAny(){
-		Connection connection= null;
-		try{
-			connection= DriverManager.getConnection(this.database_url);
-			Statement statement= connection.createStatement();
-			
-			statement.setQueryTimeout(30);
-			
-			try(ResultSet r= statement.executeQuery("select * from item_info;")){
-				while(r.next()){
-					System.out.format(
-							"%s%s",
-							r.getString("name"),
-							r.getString("category")
-							);
-				}
-			}
-		}
-		catch(Throwable e){
-			e.printStackTrace();
-		}
-		finally{
-			if(connection != null){
-				try{
-					connection.close();
-				}
-				catch(Throwable e){
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	private void insertAny(){
-		Connection connection= null;
-		try{
-			connection= DriverManager.getConnection(this.database_url);
-			
-			connection.setAutoCommit(false);
-			
-			Statement statement= connection.createStatement();
-			
-			statement.setQueryTimeout(30);
-			
-			statement
-					.executeUpdate("insert into item_info values (-1, '消費アイテム', '回復錠', 20, 10, 2, 'よろず屋, etc');");
-			statement
-					.executeUpdate("insert into item_info values (-2, '消費アイテム', '回復錠改', 10, 20, 5, 'よろず屋, etc');");
-			
-			connection.commit();
-		}
-		catch(Throwable e){
-			try{
-				if(connection != null){
-					connection.rollback();
-				}
-			}
-			catch(Throwable ex){
-				ex.printStackTrace();
-			}
-			finally{
-				e.printStackTrace();
-			}
-		}
-		finally{
-			try{
-				if(connection != null){
-					connection.close();
-				}
-			}
-			catch(Throwable e){
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	private final String jdbc_driver_classname;
