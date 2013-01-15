@@ -1,5 +1,5 @@
 package jp.michikusa.chitose.entity;
-// Generated 2013/01/15 15:30:15 by Hibernate Tools 4.0.0
+// Generated 2013/01/16 2:06:21 by Hibernate Tools 4.0.0
 
 
 
@@ -10,35 +10,23 @@ org.hibernate.tool.hbm2x.pojo.EntityPOJOClass
 public class ItemInfo  implements java.io.Serializable
  {
 
-
     /**
-     * エンティティが対応するテーブルのカラム名定義
+     * テーブルのカラム名を定義
      */
     public static final class Column{
-        // org.hibernate.type.LongType
         public static final String id= "id";
-        // org.hibernate.type.LongType
-        public static final String categoryId= "categoryId";
-        // org.hibernate.type.StringType
         public static final String name= "name";
-        // org.hibernate.type.IntegerType
         public static final String limitNumbers= "limitNumbers";
-        // org.hibernate.type.IntegerType
         public static final String purchasingPrice= "purchasingPrice";
-        // org.hibernate.type.IntegerType
         public static final String sellingPrice= "sellingPrice";
-        // org.hibernate.type.StringType
         public static final String note= "note";
-        // org.hibernate.type.ManyToOneType
         public static final String refCategory= "refCategory";
-
         private Column(){}
     }
 
 
 
      private long id;
-     private long categoryId;
      private String name;
      private Integer limitNumbers;
      private Integer purchasingPrice;
@@ -46,12 +34,12 @@ public class ItemInfo  implements java.io.Serializable
      private String note;
      private ItemCategory refCategory;
 
+
     public ItemInfo() {
     }
 
 	
-    public ItemInfo(long categoryId, String name, ItemCategory refCategory) {
-        this.categoryId = categoryId;
+    public ItemInfo(String name, ItemCategory refCategory) {
         this.name = name;
         this.refCategory = refCategory;
     }
@@ -63,13 +51,6 @@ public class ItemInfo  implements java.io.Serializable
     
     public void setId(long id) {
         this.id = id;
-    }
-    public long getCategoryId() {
-        return this.categoryId;
-    }
-    
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
     }
     public String getName() {
         return this.name;

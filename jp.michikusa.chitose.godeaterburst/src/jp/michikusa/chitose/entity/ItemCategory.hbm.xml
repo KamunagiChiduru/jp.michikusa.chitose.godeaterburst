@@ -2,12 +2,16 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
     <class name="jp.michikusa.chitose.entity.ItemCategory" table="item_category">
-    	<comment>アイテム分類マスタ</comment>
         <id name="id" column="id" type="long">
             <generator class="native"/>
         </id>
         <property name="name" column="name" type="java.lang.String" length="30" not-null="true" unique-key="item_category_uk">
             <!-- <comment>アイテムの分類 e.g.消費アイテム、アラガミ素材</comment> -->
         </property>
+        <set name="itemInfos" inverse="true">
+            <key column="id" not-null="true"/>
+            <one-to-many class="jp.michikusa.chitose.entity.ItemInfo"/>
+        </set>
     </class>
 </hibernate-mapping>
+

@@ -6,9 +6,9 @@
         <id name="id" column="id" type="long">
             <generator class="native"/>
         </id>
-        <property name="categoryId" column="category_id" type="long" not-null="true" unique-key="item_info_uk">
+<!--         <property name="categoryId" column="category_id" type="long" not-null="true" unique-key="item_info_uk"> -->
 <!--             <comment>アイテムの分類 e.g.消費アイテム、アラガミ素材</comment> -->
-        </property>
+<!--         </property> -->
         <property name="name" column="name" type="java.lang.String" length="128" not-null="true" unique-key="item_info_uk">
 <!-- 	            <comment>アイテム名</comment> -->
         </property>

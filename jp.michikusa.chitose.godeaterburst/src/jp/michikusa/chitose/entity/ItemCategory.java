@@ -1,7 +1,9 @@
 package jp.michikusa.chitose.entity;
-// Generated 2013/01/15 15:30:15 by Hibernate Tools 4.0.0
+// Generated 2013/01/16 2:06:21 by Hibernate Tools 4.0.0
 
 
+import java.util.HashSet;
+import java.util.Set;
 
 /**
 org.hibernate.tool.hbm2x.pojo.EntityPOJOClass
@@ -10,16 +12,13 @@ org.hibernate.tool.hbm2x.pojo.EntityPOJOClass
 public class ItemCategory  implements java.io.Serializable
  {
 
-
     /**
-     * エンティティが対応するテーブルのカラム名定義
+     * テーブルのカラム名を定義
      */
     public static final class Column{
-        // org.hibernate.type.LongType
         public static final String id= "id";
-        // org.hibernate.type.StringType
         public static final String name= "name";
-
+        public static final String itemInfos= "itemInfos";
         private Column(){}
     }
 
@@ -27,10 +26,16 @@ public class ItemCategory  implements java.io.Serializable
 
      private long id;
      private String name;
+     private Set<ItemInfo> itemInfos = new HashSet<ItemInfo>(0);
+
 
     public ItemCategory() {
     }
 
+	
+    public ItemCategory(String name) {
+        this.name = name;
+    }
 
    
     public long getId() {
@@ -46,6 +51,13 @@ public class ItemCategory  implements java.io.Serializable
     
     public void setName(String name) {
         this.name = name;
+    }
+    public Set<ItemInfo> getItemInfos() {
+        return this.itemInfos;
+    }
+    
+    public void setItemInfos(Set<ItemInfo> itemInfos) {
+        this.itemInfos = itemInfos;
     }
 
 

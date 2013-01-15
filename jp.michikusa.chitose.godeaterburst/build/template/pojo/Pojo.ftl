@@ -5,7 +5,7 @@ ${pojo.getPackageDeclaration()}
 <#include "PojoTypeDeclaration.ftl"/> {
 
 <#if !pojo.isInterface()>
-<#include "PojoStaticFields.ftl"/>
+<#include "PojoColumnNames.ftl"/>
 
 <#include "PojoFields.ftl"/>
 

@@ -13,6 +13,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/HibernateSQLite"/>
 	<classpathentry kind="lib" path="lib/commons-io.jar" sourcepath="lib/commons-io-2.4-src/src/main"/>
 	<classpathentry kind="lib" path="lib/guava.jar" sourcepath="/home/kamichidu/documents/sources/java/guava-libraries/guava/src"/>
+	<classpathentry kind="lib" path="build/lib/hibernate-tools-4.0.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -20,16 +20,23 @@
 	<target name="all" depends="hbm2java,hbm2ddl" />
 
 	<target name="hbm2java">
-		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
-			classpathref="toolslib" />
-		
-		<hibernatetool destdir="${dir.dest.src}" templatepath="./template">
-			<configuration configurationfile="${dir.conf}/hibernate.cfg.xml">
+        <taskdef
+            name="hibernatetool"
+            classname="org.hibernate.tool.ant.HibernateToolTask"
+            classpathref="toolslib"
+            />
+        <hibernatetool
+            destdir="${dir.dest.src}"
+            templatepath="./template"
+            >
+            <!-- <configuration configurationfile="${dir.conf}/hibernate.cfg.xml"> -->
+            <configuration>
 				<fileset dir="${dir.dest.hbm}">
 					<include name="**/*.hbm.xml" />
 				</fileset>
 			</configuration>
-			<hbm2java jdk5="false" ejb3="false" />
+            <!-- jdk5をtrueにすると、genericsが使われる(なぜだ) -->
+			<hbm2java jdk5="true" ejb3="false" />
 		</hibernatetool>
 	</target>
 
@@ -39,9 +46,9 @@
 
 		<schemaexport config="${dir.conf}/hibernate.cfg.xml"
 			quiet="no" text="no" drop="no" delimiter=";" output="schema-export.sql">
-			<fileset dir="${dir.dest.hbm}">
-				<include name="**/*.hbm.xml" />
-			</fileset>
+<!-- 			<fileset dir="${dir.dest.hbm}"> -->
+<!-- 				<include name="**/*.hbm.xml" /> -->
+<!-- 			</fileset> -->
 		</schemaexport>
 	</target>
 </project>
