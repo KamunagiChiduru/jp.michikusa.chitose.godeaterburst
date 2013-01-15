@@ -5,7 +5,6 @@
 	<property name="dir.dest.src" value="../src/" />
 	<property name="dir.lib" value="../../HibernateSQLite/" />
 	<property name="dir.build.lib" value="./lib/" />
-	<property name="dir.hbm.template" value="./template" />
 
 	<path id="toolslib">
 		<fileset dir="${dir.build.lib}">
@@ -24,13 +23,13 @@
 		<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
 			classpathref="toolslib" />
 		
-		<hibernatetool>
+		<hibernatetool destdir="${dir.dest.src}" templatepath="./template">
 			<configuration configurationfile="${dir.conf}/hibernate.cfg.xml">
 				<fileset dir="${dir.dest.hbm}">
 					<include name="**/*.hbm.xml" />
 				</fileset>
 			</configuration>
-			<hbm2java destdir="${dir.dest.src}" />
+			<hbm2java jdk5="false" ejb3="false" />
 		</hibernatetool>
 	</target>
 
