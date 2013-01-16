@@ -2,7 +2,7 @@ ${pojo.getPackageDeclaration()}
 // Generated ${date} by Hibernate Tools ${version}
 
 <#assign classbody>
-<#include "PojoTypeDeclaration.ftl"/> {
+<#include "PojoTypeDeclaration.ftl"/>{
 
 <#if !pojo.isInterface()>
 <#include "PojoColumnNames.ftl"/>
