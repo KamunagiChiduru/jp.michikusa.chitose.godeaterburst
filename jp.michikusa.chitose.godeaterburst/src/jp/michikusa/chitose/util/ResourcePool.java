@@ -1,13 +1,14 @@
 package jp.michikusa.chitose.util;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.Set;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Widget;
+import org.hibernate.SessionFactory;
 
 import com.google.common.collect.Sets;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class ResourcePool{
 	public static synchronized void regist(Widget w){
@@ -18,7 +19,18 @@ public final class ResourcePool{
 		color_pool.add(new Holder<>(c));
 	}
 	
+	public static void regist(SessionFactory session_factory){
+		session_factory_pool.add(new Holder<>(session_factory));
+	}
+	
 	public static synchronized void dispose(){
+		for(Holder<SessionFactory> session_factory : session_factory_pool){
+			if( !session_factory.get().isClosed()){
+				session_factory.get().close();
+			}
+		}
+		session_factory_pool.clear();
+		
 		for(Holder<Widget> widget : widget_pool){
 			if( !widget.get().isDisposed()){
 				widget.get().dispose();
@@ -69,6 +81,7 @@ public final class ResourcePool{
 	
 	private ResourcePool(){}
 	
+	private static final Set<Holder<SessionFactory>> session_factory_pool= Sets.newHashSet();
 	private static final Set<Holder<Widget>> widget_pool= Sets.newHashSet();
 	private static final Set<Holder<Color>> color_pool= Sets.newHashSet();
 }
