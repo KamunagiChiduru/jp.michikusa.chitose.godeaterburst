@@ -41,15 +41,15 @@
 	</target>
 
 	<target name="hbm2ddl">
-		<taskdef name="schemaexport" classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
-			classpathref="hbm2ddl_libs" classpath="../lib/" />
+		<taskdef
+			name="schemaexport"
+			classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"			classpathref="hbm2ddl_libs"
+			classpath="../lib/:../src/"			/>
 
-		<schemaexport config="${dir.conf}/hibernate.cfg.xml"
-			quiet="no" text="no" drop="no" delimiter=";" output="schema-export.sql">
-<!-- 			<fileset dir="${dir.dest.hbm}"> -->
-<!-- 				<include name="**/*.hbm.xml" /> -->
-<!-- 			</fileset> -->
-		</schemaexport>
-	</target>
+		<schemaexport
+			config="${dir.conf}/hibernate.cfg.xml"
+			quiet="no"
+			text="yes"
+			drop="no"			create="no"			delimiter=";"			output="schema-export.sql"			/>	</target>
 </project>
     
