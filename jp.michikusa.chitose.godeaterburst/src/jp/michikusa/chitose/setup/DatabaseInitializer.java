@@ -39,8 +39,10 @@ public class DatabaseInitializer implements Callable<Boolean>{
 			String read= FileUtils.readFileToString(
 					R.Hibernate.schema_export_file,
 					Charset.forName("UTF-8")
-					);
-			String[] ddls= read.split(";");
+					);			String[] ddls= read
+					.replaceAll("\r|\n", " ")
+					.split(";")
+					;
 			for(String ddl : ddls){
 				ddl= ddl.trim();
 				if( !ddl.isEmpty()){
