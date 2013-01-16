@@ -1,31 +1,30 @@
 package jp.michikusa.chitose.view.item;
 
-import static jp.michikusa.chitose.util.Widgets.makeCombo;
-import static jp.michikusa.chitose.util.Widgets.makeLabel;
-import static jp.michikusa.chitose.util.Widgets.makeText;
-
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.michikusa.chitose.entity.ItemInfo;
 import jp.michikusa.chitose.util.H;
+import jp.michikusa.chitose.util.H.AutoCloseableSession;
 import jp.michikusa.chitose.view.SearchViewBase;
 import jp.michikusa.chitose.view.widget.AppearPointPeriod;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.hibernate.Session;
+
+import static jp.michikusa.chitose.util.Widgets.makeCombo;
+import static jp.michikusa.chitose.util.Widgets.makeLabel;
+import static jp.michikusa.chitose.util.Widgets.makeText;
 
 public class ItemSearchView extends SearchViewBase{
 	@Override
@@ -56,76 +55,83 @@ public class ItemSearchView extends SearchViewBase{
 				GridDataFactory.fillDefaults().grab(true, true).create());
 		this.result_table.getTable().setHeaderVisible(true);
 		this.result_table.getTable().setLinesVisible(true);
+		this.result_table.setContentProvider(new ArrayContentProvider());
 		
-		String[] labels= {
-				"アイテム名",
-				"効果・時間",
-				"最大傾向可能数",
-				"購入額",
-				"売却額",
-				"主な入手法",
-		};
-		for(String label : labels){
-			TableColumn column= new TableColumn(this.result_table.getTable(), SWT.NONE);
-			
-			column.setText(label);
-			column.setMoveable(true);
-			column.setResizable(true);
-		}
-		this.result_table.setLabelProvider(new ITableLabelProvider(){
+		TableViewerColumn item_name= new TableViewerColumn(this.result_table, SWT.LEFT);
+		
+		item_name.getColumn().setText("アイテム名");
+		item_name.setLabelProvider(new ColumnLabelProvider(){
 			@Override
-			public void removeListener(ILabelProviderListener listener){}
-			
-			@Override
-			public boolean isLabelProperty(Object element, String property){
-				return false;
-			}
-			
-			@Override
-			public void dispose(){}
-			
-			@Override
-			public void addListener(ILabelProviderListener listener){}
-			
-			@Override
-			public String getColumnText(Object element, int columnIndex){
-				return ((Object[])element)[columnIndex].toString();
-			}
-			
-			@Override
-			public Image getColumnImage(Object element, int columnIndex){
-				return null;
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
+				
+				return info.getName();
 			}
 		});
-		this.result_table.setContentProvider(new IStructuredContentProvider(){
+		
+		TableViewerColumn item_effect= new TableViewerColumn(this.result_table, SWT.LEFT);
+		
+		item_effect.getColumn().setText("効果・時間");
+		item_effect.setLabelProvider(new ColumnLabelProvider(){
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput, Object newInput){}
-			
-			@Override
-			public void dispose(){}
-			
-			@Override
-			public Object[] getElements(Object inputElement){
-				@SuppressWarnings("unchecked")
-				List<ItemInfo> elms= (List<ItemInfo>)inputElement;
-				List<Object> result= new ArrayList<>(elms.size());
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
 				
-				for(ItemInfo elm : elms){
-					result.add(new Object[]{
-							elm.getName(),
-							"hoge",
-							elm.getNitems(),
-							elm.getBuyAmount(),
-							elm.getSellAmount(),
-							elm.getNote(),
-					});
-				}
+				return info.getDescription();
+			}
+		});
+		
+		TableViewerColumn limit_numbers= new TableViewerColumn(this.result_table, SWT.RIGHT);
+		
+		limit_numbers.getColumn().setText("最大携行可能数");
+		limit_numbers.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
 				
-				return result.toArray();
+				return new DecimalFormat().format(info.getLimitNumbers());
+			}
+		});
+		
+		TableViewerColumn purchasing_price= new TableViewerColumn(this.result_table, SWT.RIGHT);
+		
+		purchasing_price.getColumn().setText("購入額");
+		purchasing_price.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
+				
+				return new DecimalFormat().format(info.getPurchasingPrice());
+			}
+		});
+		
+		TableViewerColumn selling_price= new TableViewerColumn(this.result_table, SWT.RIGHT);
+		
+		selling_price.getColumn().setText("売却額");
+		selling_price.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
+				
+				return new DecimalFormat().format(info.getSellingPrice());
+			}
+		});
+		
+		TableViewerColumn note= new TableViewerColumn(this.result_table, SWT.LEFT);
+		
+		note.getColumn().setText("主な入手法");
+		note.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object element){
+				ItemInfo info= (ItemInfo)element;
+				
+				return info.getNote();
 			}
 		});
 		
 		for(TableColumn column : this.result_table.getTable().getColumns()){
+			column.setMoveable(true);
+			column.setResizable(true);
 			column.pack();
 		}
 		
@@ -134,22 +140,16 @@ public class ItemSearchView extends SearchViewBase{
 	
 	@Override
 	protected void onSearchBehavior(){
-		Session session= null;
-		
-		try{
-			session= H.instance().newSession();
-			
+		try(AutoCloseableSession session= H.instance().newAutoClosableSession()){
 			@SuppressWarnings("unchecked")
-			List<ItemInfo> result= new ArrayList<>(session
+			List<ItemInfo> result= new ArrayList<>(session.get()
 					.createCriteria(ItemInfo.class)
 					.list());
 			
 			this.result_table.setInput(result);
 		}
-		finally{
-			if(session != null){
-				session.close();
-			}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	
