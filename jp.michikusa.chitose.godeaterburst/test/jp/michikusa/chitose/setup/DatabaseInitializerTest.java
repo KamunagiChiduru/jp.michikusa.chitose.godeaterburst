@@ -45,16 +45,13 @@ public class DatabaseInitializerTest{
 					tx.rollback();
 				}
 				throw new AssertionError(e);
-			}
-			
+			}			
 			ItemCategory result= (ItemCategory)s
-					.createCriteria(ItemCategory.class)
-					.add(Restrictions.eq(ItemCategory.Column.name, "消費アイテム"))
+					.createCriteria(ItemCategory.class)					.add(Restrictions.eq(ItemCategory.Column.name, "消費アイテム"))
 					.uniqueResult();
 			
 			assertNotNull(result);
-			assertEquals("消費アイテム", result.getName());
-		}
+			assertEquals("消費アイテム", result.getName());			assertTrue(result.getItemInfos() != null);			assertTrue(result.getItemInfos().isEmpty());		}
 		finally{
 			s.close();
 		}
