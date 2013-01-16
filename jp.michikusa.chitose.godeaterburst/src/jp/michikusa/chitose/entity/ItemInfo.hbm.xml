@@ -1,40 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <!-- アイテム情報テーブル -->
     <class name="jp.michikusa.chitose.entity.ItemInfo" table="item_info">
-        <id name="id" column="id" type="long">
+    	<meta attribute="class-description">アイテム情報テーブル</meta>
+        <id name="id" type="long">
+        	<meta attribute="アイテム情報ID"></meta>
+        	<column name="id"/>
             <generator class="native"/>
         </id>
-<!--         <property name="categoryId" column="category_id" type="long" not-null="true" unique-key="item_info_uk"> -->
-<!--             <comment>アイテムの分類 e.g.消費アイテム、アラガミ素材</comment> -->
-<!--         </property> -->
-        <property name="name" column="name" type="java.lang.String" length="128" not-null="true" unique-key="item_info_uk">
-<!-- 	            <comment>アイテム名</comment> -->
-        </property>
-        <property name="limitNumbers" column="limit_numbers" type="java.lang.Integer">
-            <!-- <comment>最大携行可能数</comment> -->
-        </property>
-        <property name="purchasingPrice" column="purchasing_price" type="java.lang.Integer">
-            <!-- <comment>購入価格</comment> -->
-        </property>
-        <property name="sellingPrice" column="selling_price" type="java.lang.Integer">
-            <!-- <comment>売却価格</comment> -->
-        </property>
-        <property name="note" column="note" type="java.lang.String">
-            <!-- <comment>主な入手先等、備考</comment> -->
-        </property>
-        
-        <!-- ItemCategoryへの参照 -->
         <many-to-one
 	        name="refCategory"
-	        column="category_id"
 	        foreign-key="ref_category"
 	        class="jp.michikusa.chitose.entity.ItemCategory"
-	        not-null="true"
 	        fetch="join"
+	        cascade="none"
 	        >
+	        <meta attribute="field-description">アイテムの分類</meta>
+	        <meta attribute="use-in-equals">true</meta>
+	        <meta attribute="use-in-tostring">true</meta>
+	        <column name="category_id" not-null="true" unique-key="item_info_uk"/>
         </many-to-one>
+        <property
+	        name="name"
+	        type="java.lang.String"
+	        >
+	        <meta attribute="field-description">アイテム名</meta>
+	        <meta attribute="use-in-equals">true</meta>
+	        <meta attribute="use-in-tostring">true</meta>
+	        <column name="name" not-null="true" length="128" unique-key="item_info_uk"/>
+	    </property>
+        <property
+	        name="description"
+	        column="description"
+	        type="java.lang.String"
+	        />
+        <property
+	        name="limitNumbers"
+	        column="limit_numbers"
+	        type="java.lang.Integer"
+	        />
+        <property
+	        name="purchasingPrice"
+	        column="purchasing_price"
+	        type="java.lang.Integer"
+	        />
+        <property
+	        name="sellingPrice"
+	        column="selling_price"
+	        type="java.lang.Integer"
+	        />
+        <property
+	        name="note"
+	        column="note"
+	        type="java.lang.String"
+	        />
     </class>
 </hibernate-mapping>
 
